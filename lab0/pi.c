@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <math.h>
+#include "math.h"
 #include <time.h>
 double sum;
 int main(int argc, char **argv){
