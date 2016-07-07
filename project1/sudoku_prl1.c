@@ -70,12 +70,20 @@ int find_solution(char borad[9][9]){
 next :
     #pragma omp parallel for firstprivate(borad)
     for(i=1;i<=9;i++){
+        double start = omp_get_wtime();
         borad[idxX][idxY] = i;
         if(valid(borad,idxX,idxY)){
             //next layer
             if(solver(borad,idxX,idxY)){
-                return 1;
-            }
+                int m,k;
+                for(m=0;m<9;m++){
+                    for(k=0;k<9;k++){
+                        printf("%d ",borad[m][k]);
+                    }
+                printf("\n");
+                }
+                printf("time = %.16f\n",omp_get_wtime()-start);
+             }
         }
     }
     return 0;
@@ -92,19 +100,6 @@ int main(int argc,char **argv){
         0,4,0,0,0,0,0,7,0,
         0,0,3,0,0,6,5,0,0
     };
-    clock_t start = clock();
-    int res = find_solution(borad);
-    printf("time = %.16f\n",(double)(clock()-start)/1000);
-    int i,j;
-    if(res==0){
-        printf("no answ");
-        return 1;
-    }
-    for(i=0;i<9;i++){
-        for(j=0;j<9;j++){
-            printf("%d ",borad[i][j]);
-        }
-        printf("\n");
-    }
-    return 0;
+    find_solution(borad);
+     return 0;
 }
