@@ -25,6 +25,7 @@ int main(int argc,char **argv){
     if(argc>1) count = atoi(argv[1]);
     if(argc>2) thread_num = atoi(argv[2]);
     clock_t start = clock();
-    printf("pi = %.16f,clock() time = %f\n",pi_cal(count,thread_num),(double)(clock() - start)/1000);
+    printf("pi = %.16f",pi_cal(count,thread_num));
+    printf(" clock()time = %f\n",(double)(clock() - start)/1000);
     return 0;
 }

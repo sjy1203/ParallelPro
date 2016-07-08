@@ -19,6 +19,7 @@ int main(int argc,char **argv){
     int count = 1000;
     if(argc>1) count = atoi(argv[1]);
     clock_t start = clock();
-    printf("pi = %.16f,time = %f\n",pi_cal(count),(double)(clock() - start)/1000);
+    printf("pi = %.16f",pi_cal(count));
+    printf(" clock()time = %f\n",(double)(clock() - start)/1000);
     return 0;
 }
