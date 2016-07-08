@@ -4,6 +4,10 @@
 #include <string.h>
 #include <omp.h>
 
+typedef struct _boardwrap{
+    char board[9][9];
+}boardWrap;
+
 int valid(char borad[9][9],int x,int  y){
 
     int i,j;
@@ -33,36 +37,34 @@ int valid(char borad[9][9],int x,int  y){
 }
 
 
-typedef struct _boardwrap{
-    char board[9][9];
-}boardWrap;
-
-void solver(char board[9][9],int x,int y,int *res,struct boardWrap* boardRes){
+void solver(char board[9][9],int x,int y,int *res,boardWrap* boardRes){
     int i,j;
     int idxX,idxY;
+    int tempRes[9]={0};boardWrap tempWrap[9];
     for(i=x;i<9;i++)
         for(j=0;j<9;j++){
-            if(borad[i][j]==0){
+            if(board[i][j]==0){
                 idxX = i;
                 idxY = j;
                 goto next;
             }
         }
     *res = 1;
-    memcpy(boardRes,*board,sizeof(struct boardWrap));
+    memcpy(*(boardRes->board),*board,sizeof(struct _boardwrap));
     return;
 next:
-    int tempRes[9];struct boardWrap tempWrap[9];
-    #pragma omp parallel for firstprivate(borad)
+    #pragma omp parallel for num_threads(9)
     for(i=1;i<=9;i++){
-        borad[idxX][idxY] = i;
-        if(valid(borad,idxX,idxY)){
-            solver(borad,idxX,idxY,tempRes+i-1,tempWrap+i-1);
+        printf("pid:%d start\n",omp_get_thread_num());
+        board[idxX][idxY] = i;
+        if(valid(board,idxX,idxY)){
+            solver(board,idxX,idxY,tempRes+i-1,tempWrap+i-1);
         }
+        board[idxX][idxY] = 0;
     }
     for (i=0; i<9; i++) {
         if(tempRes[i]==1){
-            memcpy(boardRes,tempWrap+i,sizeof(struct boardWrap));
+            memcpy(*(boardRes->board),tempWrap+i,sizeof(struct _boardwrap));
             *res = 1;
             return ;
         }
@@ -82,12 +84,12 @@ int main(int argc,char **argv){
         0,4,0,0,0,0,0,7,0,
         0,0,3,0,0,6,5,0,0
     };
-    int res;struct boardWrap boardW;
-    solver(board,0,0,&res,&boardW);
+    int res;boardWrap boardW;
+    solver(borad,0,0,&res,&boardW);
     int m,k;
     for(m=0;m<9;m++){
         for(k=0;k<9;k++){
-            printf("%d ",boradW.board[m][k]);
+            printf("%d ",boardW.board[m][k]);
         }
         printf("\n");
     }

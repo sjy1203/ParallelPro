@@ -68,8 +68,9 @@ int find_solution(char borad[9][9]){
         }
     }
 next :
-    #pragma omp parallel for firstprivate(borad)
+    #pragma omp parallel for num_threads(9) firstprivate(borad)
     for(i=1;i<=9;i++){
+        printf("pid:%d\n",omp_get_thread_num());
         double start = omp_get_wtime();
         borad[idxX][idxY] = i;
         if(valid(borad,idxX,idxY)){
