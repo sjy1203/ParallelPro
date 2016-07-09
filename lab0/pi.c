@@ -17,6 +17,6 @@ int main(int argc, char **argv){
         sum += 1/(1+pow(((i+1)*t+i*t)/2,2));
     }
     end = clock();
-    printf("pi = %f,time = %f\n",4*sum*t,(double)(end-start)/1000);
+    printf("pi = %.16f,time = %f\n",4*sum*t,(double)(end-start)/1000);
     return 0;
 }

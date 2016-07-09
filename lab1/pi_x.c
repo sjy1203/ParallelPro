@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
@@ -16,6 +15,7 @@ void *func(void *arg){
     thread_data_t *data = (thread_data_t *)arg;
     int i;
     double* tempSum = (double*)malloc(sizeof(double));
+    *tempSum = 0;
     for(i=data->tid;i<N;i+=thread_num){
         *tempSum +=  1/(1+((i+1)*t+i*t)/2*((i+1)*t+i*t)/2);
     }

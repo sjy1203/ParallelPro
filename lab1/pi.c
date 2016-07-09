@@ -11,7 +11,6 @@ double sum,t;
 pthread_mutex_t lock_sum;
 void *func(void *arg){
     thread_data_t *data = (thread_data_t *)arg;
-    printf("running tid:%d,i:%d\n",data->tid,data->i);
     double temp = 1/(1+((data->i+1)*t+data->i*t)/2*((data->i+1)*t+data->i*t)/2);
     pthread_mutex_lock(&lock_sum);
         sum += temp;
@@ -49,6 +48,6 @@ int main(int argc, char **argv){
 
     //display
     end = clock();
-    printf("pi = %f,time = %f\n",4*sum*t,(double)(end-start)/1000);
+    printf("pi = %.16f,time = %f\n",4*sum*t,(double)(end-start)/1000);
     return 0;
 }
